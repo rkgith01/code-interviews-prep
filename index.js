@@ -1,44 +1,17 @@
-function updateInventory(arr1, arr2) {
-  //Map to store the inventory for efficient lookup
-  const inventoryMap = new Map(); 
-
-  // Add existing inventory items to the Map
-  arr1.forEach(([quantity, item]) => {
-    inventoryMap.set(item, quantity);
-  });
-
-  // Update the Map with new delivery items
-  arr2.forEach(([quantity, item]) => {
-    if (inventoryMap.has(item)) {
-      inventoryMap.set(item, inventoryMap.get(item) + quantity);
-    } else {
-      inventoryMap.set(item, quantity);
-    }
-  });
-
-  // Convert the Map back to an array and sort it
-  const updatedInventory = Array.from(inventoryMap)
-    .map(([item, quantity]) => [quantity, item])
-    .sort((a, b) => a[1].localeCompare(b[1]));
-
-  // Return the updated and sorted inventory
-  return updatedInventory;
+function sym(...args) {
+  // Remove duplicates from each array
+  console.log(args)
+  const uniqueArrays = args.map((arr) => [...new Set(arr)]);
+  // reduce to find symmetric difference
+  const result = uniqueArrays.reduce((acc, arr) => {
+    // console.log({acc})
+    const checkItems = acc
+      .filter((item) => !arr.includes(item))
+      .concat(arr.filter((item) => !acc.includes(item)));
+    // console.log({checkItems});
+    return checkItems;
+  }, []);
+  // console.log({result});
+  return result;
 }
-
-
-// Example inventory lists
-var curInv = [
-    [21, "Bowling Ball"],
-    [2, "Dirty Sock"],
-    [1, "Hair Pin"],
-    [5, "Microphone"]
-];
-
-var newInv = [
-    [2, "Hair Pin"],
-    [3, "Half-Eaten Apple"],
-    [67, "Bowling Ball"],
-    [7, "Toothpaste"]
-];
-
-updateInventory(curInv, newInv);
+console.log(sym([1, 2, 3], [5, 2, 1, 4]));
