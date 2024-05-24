@@ -21,5 +21,6 @@ function updateInventory(arr1, arr2) {
     .map(([item, quantity]) => [quantity, item])
     .sort((a, b) => a[1].localeCompare(b[1]));
 
-  return updatedInventory; // Return the updated and sorted inventory
-}
+    // Return the updated and sorted inventory
+    return updatedInventory; 
+  }
