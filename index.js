@@ -1,26 +1,44 @@
-function sym(...args) {
-    console.log(...args)
-    // Remove duplicates from each array
-    const uniqueArrays = args.map(arr => [...new Set(arr)]); 
-    console.log(uniqueArrays)
-    // Initialize an array to store the symmetric difference
-    let result = []; 
-    // Iterate through each array
-    for (const arr of uniqueArrays) { 
-        // Iterate through each number in the array
-      for (const num of arr) { 
-        // If the number is already in the result array, remove it
-        if (result.includes(num)) { 
-          result = result.filter(item => item !== num);
-          // Otherwise, add it to the result array
-        } else { 
-          result.push(num);
-        }
-      }
+function updateInventory(arr1, arr2) {
+  //Map to store the inventory for efficient lookup
+  const inventoryMap = new Map(); 
+
+  // Add existing inventory items to the Map
+  arr1.forEach(([quantity, item]) => {
+    inventoryMap.set(item, quantity);
+  });
+
+  // Update the Map with new delivery items
+  arr2.forEach(([quantity, item]) => {
+    if (inventoryMap.has(item)) {
+      inventoryMap.set(item, inventoryMap.get(item) + quantity);
+    } else {
+      inventoryMap.set(item, quantity);
     }
-    // Return the final symmetric difference
-    return result; 
+  });
+
+  // Convert the Map back to an array and sort it
+  const updatedInventory = Array.from(inventoryMap)
+    .map(([item, quantity]) => [quantity, item])
+    .sort((a, b) => a[1].localeCompare(b[1]));
+
+  // Return the updated and sorted inventory
+  return updatedInventory;
 }
-  
-// sym([1, 2, 3], [5, 2, 1, 4]);
-console.log(sym([1, 2, 3], [5, 2, 1, 4]))
+
+
+// Example inventory lists
+var curInv = [
+    [21, "Bowling Ball"],
+    [2, "Dirty Sock"],
+    [1, "Hair Pin"],
+    [5, "Microphone"]
+];
+
+var newInv = [
+    [2, "Hair Pin"],
+    [3, "Half-Eaten Apple"],
+    [67, "Bowling Ball"],
+    [7, "Toothpaste"]
+];
+
+updateInventory(curInv, newInv);
